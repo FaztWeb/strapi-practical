@@ -1,0 +1,106 @@
+@api = http://localhost:1337
+
+###
+GET {{api}}/products
+
+###
+GET {{api}}/categories
+
+###
+GET {{api}}/posts
+
+###
+GET {{api}}/products/1
+
+###
+GET {{api}}/categories/2
+
+###
+GET {{api}}/products?_limit=2
+
+###
+GET {{api}}/products?_sort=price
+
+###
+GET {{api}}/products?_sort=title
+
+###
+GET {{api}}/products?_limit=2&_sort=price
+
+
+### auth
+POST {{api}}/auth/local
+Content-Type: application/json
+
+{
+  "identifier": "ryan",
+  "password": "RyanPassword123"
+}
+
+### create post
+POST {{api}}/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjAyMDI3MDI3LCJleHAiOjE2MDQ2MTkwMjd9.DpXyQmYcEzaOWEU3gd8uC1jH8l41SZwkG3nH1LvBWaI
+
+{
+ "title" :"my product",
+ "description": "my cool product",
+ "price": 100.99,
+ "qty": 10
+}
+
+### graphql
+POST {{api}}/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  posts {
+    id
+    title
+    content
+  }
+}
+
+###
+POST {{api}}/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  posts {
+    title
+  }
+}
+
+###
+POST {{api}}/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  post(id: 1) {
+    title
+    id
+    content
+  }
+}
+
+###
+POST {{api}}/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjAyMDI3MDI3LCJleHAiOjE2MDQ2MTkwMjd9.DpXyQmYcEzaOWEU3gd8uC1jH8l41SZwkG3nH1LvBWaI
+
+mutation {
+  createPost(input: {data: {title: "some other post", content: "this is my awesome content"}}){
+    post {
+    title
+    id
+    content
+    }
+  }
+}
+
+
+
